@@ -2,5 +2,21 @@
   "name": "home-work",
   "version": "1.0.0",
   "main": "index.js",
-  "license": "MIT"
+  "license": "MIT",
+  "repository": "git@github.com:BenyaChef/Home_work.git",
+  "author": "Maxim <benyachef@gmail.com>",
+  "scripts": {
+    "dev": "yarn nodemon --inspect dist/index.js",
+    "watch": "tsc -w"
+  },
+  "dependencies": {
+    "express": "^4.18.2"
+  },
+  "devDependencies": {
+    "@types/express": "^4.17.17",
+    "@types/node": "^18.16.1",
+    "nodemon": "^2.0.22",
+    "ts-node": "^10.9.1",
+    "typescript": "^5.0.4"
+  }
 }
