@@ -6,6 +6,17 @@ const port = process.env.PORT || 3000
 
 const createdDate = new Date()
 
+type VideoType = [{
+    id: number,
+    title: string,
+    author: string,
+    canBeDownloaded: boolean,
+    minAgeRestriction: number | null,
+    createdAt: string,
+    publicationDate: string,
+    availableResolutions: string[]
+}]
+
 enum resolutionDB {
     P144 = 'P144',
     P240 = 'P240',
@@ -17,8 +28,7 @@ enum resolutionDB {
     P2160 = 'P2160'
 }
 
-
-const videoDB = [{
+let videoDB: VideoType = [{
     id: 1,
     title: 'Through hardship to the stars',
     author: 'Richard Viktorov',
@@ -76,12 +86,7 @@ app.put('/videos/:id', (req: Request, res: Response) => {
     }
 })
 app.delete('/videos/:id', (req: Request, res: Response) => {
-    for(let i = 0; i < videoDB.length; i++) {
-        if(videoDB[i].id === +req.params.id) {
-            videoDB.splice(i, 1)
-            res.send(204)
-        }
-    }
+    videoDB = videoDB.filter(v => v.id !== +req.params.id) //TODO
  })
 
 
