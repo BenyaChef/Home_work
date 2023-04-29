@@ -8,6 +8,7 @@ const body_parser_1 = __importDefault(require("body-parser"));
 const app = (0, express_1.default)();
 const port = process.env.PORT || 3000;
 const createdDate = new Date();
+const errorsArray = [];
 var resolutionDB;
 (function (resolutionDB) {
     resolutionDB["P144"] = "P144";
@@ -19,7 +20,7 @@ var resolutionDB;
     resolutionDB["P1440"] = "P1440";
     resolutionDB["P2160"] = "P2160";
 })(resolutionDB || (resolutionDB = {}));
-const videoDB = [{
+let videoDB = [{
         id: 1,
         title: 'Through hardship to the stars',
         author: 'Richard Viktorov',
@@ -48,6 +49,10 @@ app.get('/videos/:id', (req, res) => {
     }
 });
 app.post('/videos', (req, res) => {
+    const title = req.body.title;
+    const author = req.body.author;
+    const canBeDownloaded = req.body.canBeDownloaded;
+    const minAgeRestriction = req.body.minAgeRestriction;
     const newVideo = {
         id: +(new Date()),
         title: req.body.title,
@@ -74,12 +79,13 @@ app.put('/videos/:id', (req, res) => {
     }
 });
 app.delete('/videos/:id', (req, res) => {
-    for (let i = 0; i < videoDB.length; i++) {
-        if (videoDB[i].id === +req.params.id) {
-            videoDB.splice(i, 1);
-            res.send(204);
-        }
+    let video = videoDB.find(v => v.id === +req.params.id);
+    if (!video) {
+        res.sendStatus(404);
+        return;
     }
+    videoDB = videoDB.filter(v => v.id !== +req.params.id);
+    res.sendStatus(204);
 });
 app.listen(port, () => {
     console.log(`Example app listening on port ${port}`);

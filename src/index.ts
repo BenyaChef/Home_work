@@ -6,7 +6,9 @@ const port = process.env.PORT || 3000
 
 const createdDate = new Date()
 
-type VideoType = [{
+const errorsArray = []
+
+type VideoType = {
     id: number,
     title: string,
     author: string,
@@ -15,7 +17,7 @@ type VideoType = [{
     createdAt: string,
     publicationDate: string,
     availableResolutions: string[]
-}]
+}
 
 enum resolutionDB {
     P144 = 'P144',
@@ -28,7 +30,7 @@ enum resolutionDB {
     P2160 = 'P2160'
 }
 
-let videoDB: VideoType = [{
+let videoDB: Array<VideoType> = [{
     id: 1,
     title: 'Through hardship to the stars',
     author: 'Richard Viktorov',
@@ -59,6 +61,10 @@ app.get('/videos/:id', (req: Request, res: Response) => {
 
 })
 app.post('/videos', (req: Request, res: Response) => {
+    const title = req.body.title
+    const author = req.body.author
+    const canBeDownloaded = req.body.canBeDownloaded
+    const minAgeRestriction = req.body.minAgeRestriction
     const newVideo = {
         id: +(new Date()),
         title: req.body.title,
@@ -86,7 +92,13 @@ app.put('/videos/:id', (req: Request, res: Response) => {
     }
 })
 app.delete('/videos/:id', (req: Request, res: Response) => {
-    videoDB = videoDB.filter(v => v.id !== +req.params.id) //TODO
+    let video = videoDB.find(v => v.id === +req.params.id)
+    if(!video) {
+        res.sendStatus(404)
+        return
+    }
+    videoDB = videoDB.filter(v => v.id !== +req.params.id)
+        res.sendStatus(204)
  })
 
 
