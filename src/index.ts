@@ -1,34 +1,44 @@
 import express, {Request, Response} from 'express'
 import bodyParser from 'body-parser'
+import {
+    validationAvailableResolutions,
+    validationCanBeDownloaded,
+    validationCreatedAt,
+    validationMinAgeRestriction,
+    validationPublicationDate,
+    validationVideoAuthor,
+    validationVideoTitle
+} from "./valadation/validation-videos-input-value";
 
 const app = express()
 const port = process.env.PORT || 3000
 
 const createdDate = new Date()
 
-const errorsArray = []
+export let errorsArray: Array<object> = []
 
 type VideoType = {
     id: number,
     title: string,
     author: string,
-    canBeDownloaded: boolean,
+    canBeDownloaded: boolean | false,
     minAgeRestriction: number | null,
     createdAt: string,
     publicationDate: string,
-    availableResolutions: string[]
+    availableResolutions: Array<string>
 }
 
-enum resolutionDB {
-    P144 = 'P144',
-    P240 = 'P240',
-    P360 = 'P360',
-    P480 = 'P480',
-    P720 = 'P720',
-    P1080 = 'P1080',
-    P1440 = 'P1440',
-    P2160 = 'P2160'
-}
+export const resolutionDB: Array<string> = [
+    'P144',
+    'P240',
+    'P360',
+    'P480',
+    'P720',
+    'P1080',
+    'P1440',
+    'P2160'
+]
+
 
 let videoDB: Array<VideoType> = [{
     id: 1,
@@ -38,7 +48,7 @@ let videoDB: Array<VideoType> = [{
     minAgeRestriction: 14,
     createdAt: '1981-04-23T12:00:53.661Z',
     publicationDate: '1981-04-24T12:00:53.661Z',
-    availableResolutions: [resolutionDB.P720]
+    availableResolutions: [resolutionDB[0]]
 }]
 
 const parserMiddleware = bodyParser();
@@ -49,23 +59,33 @@ app.delete('/testing/all-data', (req: Request, res: Response) => {
     res.send(204)
 })
 app.get('/videos', (req: Request, res: Response) => {
-    res.send(videoDB);
+    res.status(200).send(videoDB);
 })
 app.get('/videos/:id', (req: Request, res: Response) => {
     const video = videoDB.find(v => v.id === +req.params.id)
     if (video) {
-        res.send(video)
+        res.status(200).send(video)
     } else {
-        res.send(404)
+        res.sendStatus(404)
     }
 
 })
 app.post('/videos', (req: Request, res: Response) => {
-    const title = req.body.title
-    const author = req.body.author
-    const canBeDownloaded = req.body.canBeDownloaded
-    const minAgeRestriction = req.body.minAgeRestriction
-    const newVideo = {
+    validationVideoTitle(req.body.title)
+    validationVideoAuthor(req.body.author)
+    validationAvailableResolutions(req.body.availableResolutions)
+    validationCanBeDownloaded(req.body.canBeDownloaded)
+    validationMinAgeRestriction(req.body.minAgeRestriction)
+    validationCreatedAt(req.body.createdAt)
+    validationPublicationDate(req.body.publicationDate)
+
+    if (errorsArray.length > 0) {
+        res.status(400).send(errorsArray)
+        errorsArray.splice(0)
+        return
+    }
+
+    const newVideo: VideoType = {
         id: +(new Date()),
         title: req.body.title,
         author: req.body.author,
@@ -78,28 +98,47 @@ app.post('/videos', (req: Request, res: Response) => {
     }
     videoDB.push(newVideo)
     res.status(201).send(newVideo);
+
 })
 app.put('/videos/:id', (req: Request, res: Response) => {
-    const video = videoDB.find(v => v.id = +req.params.id)
-    if(video) {
-            video.title = req.body.title
-            video.author = req.body.author
-            video.canBeDownloaded = req.body.canBeDownloaded || false
-            video.minAgeRestriction = req.body.minAgeRestriction || null
-            video.publicationDate = req.body.publicationDate
-            video.availableResolutions = req.body.availableResolutions
-            res.send(204)
+    const video = videoDB.find(v => v.id === +req.params.id)
+    if (!video) {
+        res.send(404)
+        return
     }
+    validationVideoTitle(req.body.title)
+    validationVideoAuthor(req.body.author)
+    validationAvailableResolutions(req.body.availableResolutions)
+    validationCanBeDownloaded(req.body.canBeDownloaded)
+    validationMinAgeRestriction(req.body.minAgeRestriction)
+    validationCreatedAt(req.body.createdAt)
+    validationPublicationDate(req.body.publicationDate)
+
+    if (errorsArray.length > 0) {
+        res.status(400).send(errorsArray)
+        errorsArray.splice(0)
+        return
+    }
+
+    video.title = req.body.title
+    video.author = req.body.author
+    video.canBeDownloaded = req.body.canBeDownloaded || false
+    video.minAgeRestriction = req.body.minAgeRestriction || null
+    video.publicationDate = req.body.publicationDate
+    video.availableResolutions = req.body.availableResolutions
+
+    res.sendStatus(204)
+
 })
 app.delete('/videos/:id', (req: Request, res: Response) => {
     let video = videoDB.find(v => v.id === +req.params.id)
-    if(!video) {
+    if (!video) {
         res.sendStatus(404)
         return
     }
     videoDB = videoDB.filter(v => v.id !== +req.params.id)
-        res.sendStatus(204)
- })
+    res.sendStatus(204)
+})
 
 
 app.listen(port, () => {
