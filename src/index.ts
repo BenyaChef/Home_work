@@ -9,9 +9,8 @@ const port = process.env.PORT || 3000
 const parserMiddleware = bodyParser();
 app.use(parserMiddleware)
 
-app.use('/all-data', testRouter)
-// app.use('/',videoRouter)
-app.use('/videos',videoRouter)
+app.use('/testing', testRouter)
+app.use('/videos', videoRouter)
 
 
 app.listen(port, () => {
