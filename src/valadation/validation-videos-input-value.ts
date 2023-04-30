@@ -22,14 +22,14 @@ export const validationAvailableResolutions = (el: Array<string>) => {
     if (el.length === 0) {
         errorsArray.push({
             "message": "Incorrect Input",
-            "field": "resolution"
+            "field": "availableResolutions"
         })
     }
     el.forEach((e: string) => {
         if (!resolutionDB.includes(e) || !Array.isArray(el)) {
             errorsArray.push({
                 "message": "Incorrect Input",
-                "field": "resolution"
+                "field": "availableResolutions"
             })
         }
     })
@@ -49,14 +49,14 @@ export const validationMinAgeRestriction = (el: any) => {
     if(typeof(el) === 'boolean') {
         errorsArray.push({
             "message": "Incorrect Input",
-            "field": "age"
+            "field": "minAgeRestriction"
         })
     }
     if(!el) return
     if(el < 1 || el > 18 ||  typeof(el) !== 'number') {
         errorsArray.push({
             "message": "Incorrect Input",
-            "field": "age"
+            "field": "minAgeRestriction"
         })
     }
 }
