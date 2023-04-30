@@ -22,6 +22,7 @@ export const videoRouter = Router({})
 // })
 videoRouter.get('/', (req: Request, res: Response) => {
     res.status(200).send(videoDB);
+    return;
 })
 videoRouter.get('/:id', (req: Request, res: Response) => {
     const video = videoDB.find(v => v.id === +req.params.id)

@@ -1,5 +1,6 @@
 import {Request, Response, Router} from "express";
 import {videoDB} from "../db/videoDB";
+import {videoRouter} from "./video-router";
 
 export const testRouter = Router({})
 
