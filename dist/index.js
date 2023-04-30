@@ -12,7 +12,7 @@ const port = process.env.PORT || 3000;
 const parserMiddleware = (0, body_parser_1.default)();
 app.use(parserMiddleware);
 app.use('/all-data', test_router_1.testRouter);
-app.use('/', video_router_1.videoRouter);
+// app.use('/',videoRouter)
 app.use('/videos', video_router_1.videoRouter);
 app.listen(port, () => {
     console.log(`Example app listening on port ${port}`);

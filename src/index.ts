@@ -6,16 +6,11 @@ import {testRouter} from "./routes/test-router";
 const app = express()
 const port = process.env.PORT || 3000
 
-
-
-
-
-
 const parserMiddleware = bodyParser();
 app.use(parserMiddleware)
 
 app.use('/all-data', testRouter)
-app.use('/',videoRouter)
+// app.use('/',videoRouter)
 app.use('/videos',videoRouter)
 
 

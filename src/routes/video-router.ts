@@ -17,9 +17,9 @@ const createdDate = new Date()
 export const videoRouter = Router({})
 
 
-videoRouter.get('/', (req: Request, res: Response) => {
-    res.status(200).send("Hello my friend =)");
-})
+// videoRouter.get('/', (req: Request, res: Response) => {
+//     res.status(200).send("Hello my friend =)");
+// })
 videoRouter.get('/', (req: Request, res: Response) => {
     res.status(200).send(videoDB);
 })
