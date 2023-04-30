@@ -15,7 +15,12 @@ const port = process.env.PORT || 3000
 
 const createdDate = new Date()
 
-let errorsArray: Array<string> = []
+type errorsType = {
+    "message": string
+    "field": string
+}
+
+export let errorsArray: Array<errorsType> = []
 
 type VideoType = {
     id: number,
