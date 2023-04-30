@@ -39,7 +39,6 @@ app.delete('/testing/all-data', (req, res) => {
 });
 app.get('/videos', (req, res) => {
     res.status(200).send(videoDB);
-    return;
 });
 app.get('/videos/:id', (req, res) => {
     const video = videoDB.find(v => v.id === +req.params.id);
@@ -59,7 +58,7 @@ app.post('/videos', (req, res) => {
     (0, validation_videos_input_value_1.validationCreatedAt)(req.body.createdAt);
     (0, validation_videos_input_value_1.validationPublicationDate)(req.body.publicationDate);
     if (exports.errorsArray.length > 0) {
-        res.status(400).send({ errorsMessages: exports.errorsArray });
+        res.status(400).json({ errorsMessages: exports.errorsArray });
         exports.errorsArray.splice(0);
         return;
     }

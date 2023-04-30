@@ -16,8 +16,8 @@ const port = process.env.PORT || 3000
 const createdDate = new Date()
 
 type errorsType = {
-    "message": string
-    "field": string
+    message: string
+    field: string
 }
 
 export let errorsArray: Array<errorsType> = []
@@ -65,7 +65,6 @@ app.delete('/testing/all-data', (req: Request, res: Response) => {
 })
 app.get('/videos', (req: Request, res: Response) => {
     res.status(200).send(videoDB);
-    return
 })
 app.get('/videos/:id', (req: Request, res: Response) => {
     const video = videoDB.find(v => v.id === +req.params.id)
@@ -86,7 +85,7 @@ app.post('/videos', (req: Request, res: Response) => {
     validationPublicationDate(req.body.publicationDate)
 
     if (errorsArray.length > 0) {
-        res.status(400).send({errorsMessages: errorsArray})
+        res.status(400).json({errorsMessages: errorsArray})
         errorsArray.splice(0)
         return
     }
