@@ -65,6 +65,7 @@ app.delete('/testing/all-data', (req: Request, res: Response) => {
 })
 app.get('/videos', (req: Request, res: Response) => {
     res.status(200).send(videoDB);
+    return
 })
 app.get('/videos/:id', (req: Request, res: Response) => {
     const video = videoDB.find(v => v.id === +req.params.id)
@@ -85,7 +86,7 @@ app.post('/videos', (req: Request, res: Response) => {
     validationPublicationDate(req.body.publicationDate)
 
     if (errorsArray.length > 0) {
-        res.status(400).json({"errorsMessages": errorsArray})
+        res.status(400).send({errorsMessages: errorsArray})
         errorsArray.splice(0)
         return
     }
@@ -120,7 +121,7 @@ app.put('/videos/:id', (req: Request, res: Response) => {
     validationPublicationDate(req.body.publicationDate)
 
     if (errorsArray.length > 0) {
-        res.status(400).json({"errorsMessages": errorsArray})
+        res.status(400).json({errorsMessages: errorsArray})
         errorsArray.splice(0)
         return
     }

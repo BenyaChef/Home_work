@@ -40,7 +40,7 @@ export const validationCanBeDownloaded = (el: any) => {
     if(typeof(el) !== 'boolean') {
         errorsArray.push({
             "message": "Incorrect Input",
-            "field": "can be downloaded"
+            "field": "canBeDownloaded"
         })
     }
 }
