@@ -76,7 +76,7 @@ export const validationPublicationDate = (el: any) => {
     if(typeof(el) !== 'string') {
         errorsArray.push({
             "message": "Incorrect Input",
-            "field": "date"
+            "field": "publicationDate"
         })
     }
 }
