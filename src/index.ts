@@ -63,7 +63,7 @@ app.delete('/testing/all-data', (req: Request, res: Response) => {
     videoDB.splice(0);
     res.send(204)
 })
-app.get('/', (req: Request, res: Response) => {
+app.get('/videos/', (req: Request, res: Response) => {
     res.status(200).send(videoDB);
 })
 app.get('/videos/:id', (req: Request, res: Response) => {
