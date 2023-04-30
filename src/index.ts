@@ -2,6 +2,7 @@ import express from 'express'
 import bodyParser from 'body-parser'
 import {videoRouter} from "./routes/video-router";
 import {testRouter} from "./routes/test-router";
+import {baseRouter} from "./routes/base-router";
 
 const app = express()
 const port = process.env.PORT || 3000
@@ -9,6 +10,7 @@ const port = process.env.PORT || 3000
 const parserMiddleware = bodyParser();
 app.use(parserMiddleware)
 
+app.use('/', baseRouter)
 app.use('/testing', testRouter)
 app.use('/videos', videoRouter)
 
