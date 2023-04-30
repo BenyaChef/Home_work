@@ -85,7 +85,7 @@ app.post('/videos', (req: Request, res: Response) => {
     validationPublicationDate(req.body.publicationDate)
 
     if (errorsArray.length > 0) {
-        res.status(400).send(errorsArray)
+        res.status(400).json(errorsArray)
         errorsArray.splice(0)
         return
     }
@@ -120,7 +120,7 @@ app.put('/videos/:id', (req: Request, res: Response) => {
     validationPublicationDate(req.body.publicationDate)
 
     if (errorsArray.length > 0) {
-        res.status(400).send(errorsArray)
+        res.status(400).json(errorsArray)
         errorsArray.splice(0)
         return
     }
