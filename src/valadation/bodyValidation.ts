@@ -1,4 +1,5 @@
-import {errorsArray, resolutionDB} from "../index";
+import {errorsArray} from "../db/errorsDB";
+import {resolutionDB} from "../db/resolutionDB";
 
 export const validationVideoTitle = (el: any) => {
     if (!el || el.length > 40 || typeof (el) !== 'string' || !el.trim()) {
