@@ -6,5 +6,5 @@ export const testRouter = Router({})
 
 testRouter.delete('/all-data',(req: Request, res: Response) => {
     videoDB.splice(0);
-    res.send(204)
+    res.sendStatus(204)
 })
