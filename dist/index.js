@@ -7,10 +7,12 @@ const express_1 = __importDefault(require("express"));
 const body_parser_1 = __importDefault(require("body-parser"));
 const video_router_1 = require("./routes/video-router");
 const test_router_1 = require("./routes/test-router");
+const base_router_1 = require("./routes/base-router");
 const app = (0, express_1.default)();
 const port = process.env.PORT || 3000;
 const parserMiddleware = (0, body_parser_1.default)();
 app.use(parserMiddleware);
+app.use('/', base_router_1.baseRouter);
 app.use('/testing', test_router_1.testRouter);
 app.use('/videos', video_router_1.videoRouter);
 app.listen(port, () => {
